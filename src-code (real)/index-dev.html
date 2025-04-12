@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
+  <title>Na't Mobile</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #error-message {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(255, 0, 0, 0.1);
+      color: red;
+      padding: 10px;
+      border: 1px solid red;
+      border-radius: 5px;
+      z-index: 9999;
+      max-width: 90%;
+      text-align: center;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="error-message"></div>
+  <iframe id="content-frame" src="https://samcraft3.pythonanywhere.com/login_mobile" allowfullscreen="true"></iframe>
+
+  <script>
+    const iframe = document.getElementById('content-frame');
+    const errorDiv = document.getElementById('error-message');
+
+    iframe.addEventListener('load', function() {
+      try {
+        const currentUrl = iframe.contentWindow.location.href;
+
+        if (!window.api.isUrlAllowed(currentUrl)) {
+          iframe.src = 'https://samcraft3.pythonanywhere.com/login_mobile';
+        }
+      } catch (error) {
+        errorDiv.textContent = 'Error: ' + error.message;
+        errorDiv.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
